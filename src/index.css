@@ -1,5 +1,13 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+.img-thumbnail {
+    margin-bottom: 5%;
 }
+
+.img-thumbnail:hover {
+    transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+img {
+    max-width: 100%;
+}
+
+  
