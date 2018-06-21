@@ -1,9 +1,15 @@
 import React, {Component} from "react";
+import SweetAlert from 'sweetalert-react';
+import "sweetalert/dist/sweetalert.css";
 
 class App extends Component {
 
     state = {
+        show: false,
+
         score: 0,
+
+        topScore: 0,
 
         characters: [
             {
@@ -130,12 +136,12 @@ class App extends Component {
                 name: "Ganondorf",
                 url: "https://www.smashbros.com/assets_v2/img/fighter/thumb_a/ganondorf.png",
                 clicked: false,
-            },
+            }/*,
             {
                 name: "Mewtwo",
                 url: "https://www.smashbros.com/assets_v2/img/fighter/thumb_a/mewtwo.png",
                 clicked: false,
-            },
+            }*/,
             {
                 name: "Roy",
                 url: "https://www.smashbros.com/assets_v2/img/fighter/thumb_a/roy.png",
@@ -331,23 +337,27 @@ class App extends Component {
             if (item.name === character) {
                 //If it's been clicked game is over + start the game again
                 if (item.clicked) {
-                    console.log("Game Over!");
+                    this.setState({show: true});
+                    this.restartGame();
                 } else {
                     let newCharacters = [...this.state.characters];
                     let score = this.state.score;
+                    let topScore = this.state.topScore;
                     score++;
+                    if (score > this.state.topScore) {
+                        topScore++;
+                    }
                     newCharacters[index].clicked = true;
-                    //If not then add 1 to the score
                     this.setState({
                         score,
+                        topScore,
                         characters: newCharacters,  
-                    }, () => console.log("State was changed", this.state.score, this.state.characters))
+                    })
 
                     this.shuffleCards();
                 }
             }
         })
-        //Shuffle the cards and start the game again
     }
     
     shuffleCards = () => {
@@ -364,24 +374,57 @@ class App extends Component {
 
         this.setState({
             characters: newCharacters
-        }, () => console.log("Updated"))
+        })
+    }
+
+    restartGame() {
+        this.state.characters.map((item, index) => {
+            let newCharacters = [...this.state.characters];
+
+            newCharacters[index].clicked = false;
+
+            this.setState({
+                score: 0,
+                characters: newCharacters,  
+            })
+        })
     }
 
     render() {
 
         return(
-            <div className = "container">
-                <div className="row">
-                    {this.state.characters.map((character, index) => {
-                        return (
-                            <div onClick = {() => this.clickHandler(character.name)} key = {index}>
-                                <div className = "col-xs-4 col-md-2">
-                                    <img src={character.url} alt={character.name} className="img-thumbnail"/>
+            <div>
+                <nav className="navbar navbar-static-top">
+                    <div className="container-fluid">
+                        <h1 className="text-center title">Score: {this.state.score} | Top: {this.state.topScore}</h1>
+                    </div>
+                </nav>
+                <div className="jumbotron">
+                    <h1 className="text-center game-title">Smash Ultimate Memory Test</h1> 
+                    <p className="text-center">Click on characters to earn points, but don't click on one more than once!</p> 
+                </div>    
+                <div className = "container">
+                    <div className="row">
+                        {this.state.characters.map((character, index) => {
+                            return (
+                                <div onClick = {() => this.clickHandler(character.name)} key = {index}>
+                                    <div className = "col-xs-4 col-md-2">
+                                        <img src={character.url} alt={character.name} className="img-thumbnail"/>
+                                    </div>
                                 </div>
-                            </div>
-                        )
-                    })}
+                            )
+                        })}
+                    </div>
                 </div>
+                <SweetAlert 
+                        show={this.state.show}
+                        title="Game Over!"
+                        type="error"
+                        text="You clicked on that character already..."
+                        onConfirm={() => this.setState({show: false})}
+                        onEscapeKey={() => this.setState({ show: false })}
+                        onOutsideClick={() => this.setState({ show: false })}
+                />
             </div>
         )
     }

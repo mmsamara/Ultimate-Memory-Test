@@ -1,5 +1,33 @@
+.navbar {
+    min-height: 6rem;
+    background-color: #563d7c;
+    position: fixed;
+    z-index: 99;
+    top: 0;
+    width: 100%;
+}
+
+.title {
+    color: white;
+    font-family: "Anton", sans-serif;
+    line-height: 1.6rem;
+}
+
+.jumbotron {
+    margin-top: 6rem;
+    color: white;
+    background: black;
+}
+
+.game-title {
+    font-family: "Anton", sans-serif;
+}
+
 .img-thumbnail {
     margin-bottom: 5%;
+    height: 58.248484848%;
+    width: 100%;
+    box-shadow: 5px 5px 10px grey;
 }
 
 .img-thumbnail:hover {
@@ -9,5 +37,4 @@
 img {
     max-width: 100%;
 }
-
   
