@@ -318,6 +318,11 @@ class App extends Component {
                 clicked: false,
             },
             {
+                name: "Corrin",
+                url: "https://www.smashbros.com/assets_v2/img/fighter/thumb_a/corrin.png",
+                clicked: false,
+            },
+            {
                 name: "Bayonetta",
                 url: "https://www.smashbros.com/assets_v2/img/fighter/thumb_a/bayonetta.png",
                 clicked: false,
