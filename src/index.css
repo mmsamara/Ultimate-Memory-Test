@@ -5,6 +5,7 @@
     z-index: 99;
     top: 0;
     width: 100%;
+    box-shadow: 3px 3px 10px #190729;
 }
 
 .title {
@@ -20,7 +21,9 @@
 }
 
 .game-title {
-    font-family: "Anton", sans-serif;
+    font-family: smashFont;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px grey;
 }
 
 .img-thumbnail {
@@ -31,10 +34,64 @@
 }
 
 .img-thumbnail:hover {
-    transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    transform: scale(1.15); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 
-img {
-    max-width: 100%;
+@font-face {
+    font-family: smashFont;
+    src: "images/super_smash_4_1_by_pokemon_diamond-d7zxu6d.ttf"
 }
-  
+
+@media only screen and (max-width: 273px) {
+    .title {
+        font-size: 3rem;
+    }
+}
+
+@media only screen and (max-width: 236px) {
+    .title {
+        font-size: 2.5rem;
+    }
+}
+
+/*@media only screen and (max-width: 9999px) {
+    #mewtwo {
+        max-height: 96.1px;
+    }
+}
+
+@media only screen and (max-width: 1199px) {
+    #mewtwo {
+        max-height: 77.58px;
+    }
+}
+
+@media only screen and (max-width: 991px) {
+    #mewtwo {
+        max-height: 126.66px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    #mewtwo {
+        max-height: 126.47px;
+    }
+}
+
+@media only screen and (max-width: 414px) {
+    #mewtwo {
+        max-height: 61.28px;
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    #mewtwo {
+        max-height: 54px;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    #mewtwo {
+        max-height: 43.88px;
+    }
+}*/

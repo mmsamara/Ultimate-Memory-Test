@@ -5,7 +5,11 @@ import "sweetalert/dist/sweetalert.css";
 class App extends Component {
 
     state = {
-        show: false,
+        //Makes the Gameover screen invisible (showLoss is switched to true when user loses)
+        showLoss: false,
+
+        //Makes the Game winner screen invisible (showWin is switched to true when user wins)
+        showWin: false,
 
         score: 0,
 
@@ -136,12 +140,13 @@ class App extends Component {
                 name: "Ganondorf",
                 url: "https://www.smashbros.com/assets_v2/img/fighter/thumb_a/ganondorf.png",
                 clicked: false,
-            }/*,
+            },/*
             {
                 name: "Mewtwo",
                 url: "https://www.smashbros.com/assets_v2/img/fighter/thumb_a/mewtwo.png",
                 clicked: false,
-            }*/,
+                id: "mewtwo",
+            },*/
             {
                 name: "Roy",
                 url: "https://www.smashbros.com/assets_v2/img/fighter/thumb_a/roy.png",
@@ -330,16 +335,17 @@ class App extends Component {
         ]
     }
 
+    // Function called everytime a card is clicked, handles most of the game logic    
     clickHandler = (character) => {
-        console.log(character);
-        //Check to see if character has been clicked 
         this.state.characters.map((item, index) => {
             if (item.name === character) {
-                //If it's been clicked game is over + start the game again
+                //If the card the user clicked shares a name with a card they previously cliked, it's game over
                 if (item.clicked) {
-                    this.setState({show: true});
+                    this.setState({showLoss: true});
                     this.restartGame();
+                //If it's not game over, then we add points and check for a win
                 } else {
+                    //Create new variables that we will mutate and then pass into state
                     let newCharacters = [...this.state.characters];
                     let score = this.state.score;
                     let topScore = this.state.topScore;
@@ -348,18 +354,23 @@ class App extends Component {
                         topScore++;
                     }
                     newCharacters[index].clicked = true;
+
+                    //Show the win screen if the user guesses all 65 characters
+                    if (score === newCharacters.length) {
+                        this.setState({showWin: true});
+                    }
                     this.setState({
                         score,
                         topScore,
                         characters: newCharacters,  
                     })
-
+                    
                     this.shuffleCards();
                 }
             }
         })
     }
-    
+
     shuffleCards = () => {
         let newCharacters = [...this.state.characters];
 
@@ -409,7 +420,7 @@ class App extends Component {
                             return (
                                 <div onClick = {() => this.clickHandler(character.name)} key = {index}>
                                     <div className = "col-xs-4 col-md-2">
-                                        <img src={character.url} alt={character.name} className="img-thumbnail"/>
+                                        <img src={character.url} alt={character.name} className="img-thumbnail" id={character.id} />
                                     </div>
                                 </div>
                             )
@@ -417,13 +428,22 @@ class App extends Component {
                     </div>
                 </div>
                 <SweetAlert 
-                        show={this.state.show}
+                        show={this.state.showLoss}
                         title="Game Over!"
                         type="error"
                         text="You clicked on that character already..."
-                        onConfirm={() => this.setState({show: false})}
-                        onEscapeKey={() => this.setState({ show: false })}
-                        onOutsideClick={() => this.setState({ show: false })}
+                        onConfirm={() => this.setState({showLoss: false})}
+                        onEscapeKey={() => this.setState({ showLoss: false })}
+                        onOutsideClick={() => this.setState({ showLoss: false })}
+                />
+                <SweetAlert 
+                        show={this.state.showWin}
+                        title="You Win!"
+                        type="success"
+                        text="You really got every character!! (Except Mewtwo, Forget about that fool)"
+                        onConfirm={() => this.setState({showWin: false})}
+                        onEscapeKey={() => this.setState({ showWin: false })}
+                        onOutsideClick={() => this.setState({ showWin: false })}
                 />
             </div>
         )
